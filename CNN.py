@@ -33,7 +33,8 @@ images, labels = mnist.train.next_batch(100)
 '''
 Why Low API?
 
-Because it allows you to modify standard structures as you wish easily (In high API modification can be tedious depending on modification).
+Because it allows you to modify standard structures as you wish easily 
+In high API modification can be tedious depending on modification).
 
 Design your model more hands on..
 Analyzing your model is easier.
@@ -93,7 +94,7 @@ def model(x, prob):
             b5 = tf.get_variable("bias",  10 )
             o5 = tf.matmul(o4,w5) - b5
         
-    return o5 #,w1  # To be able to inspect w2, you need to give as output of this function, and run a session to get values.
+    return o5 #,w1  # To be able to inspect w1, you need to give as output of this function, and run a session to get values.
 
 
 ################# BUILDING GRAPH ###################
@@ -101,13 +102,14 @@ def model(x, prob):
 
 x = tf.placeholder(tf.float32, shape = [None, 28, 28, 1], name ="inputs")
 y_actual = tf.placeholder(tf.float32, shape = [None, 10], name ="labels")
-prob = tf.placeholder_with_default(1.0, shape=(), name = "prob")  # Placeholder with default value, if you don't specify in feed_dict it will assume prob = 1.0
+prob = tf.placeholder_with_default(1.0, shape=(), name = "prob")  # Placeholder with default value, 
+# if you don't specify in feed_dict it will assume prob = 1.0
 
 
 # We need logits to get predictions.
 logits = model(x, prob)
-
 # logits, w1 = model(x, prob)
+
 Y = tf.nn.softmax(logits)      
 
 # Cross Entropy takes logits and actual labels as input.
@@ -127,18 +129,14 @@ optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(total_
 prediction = tf.equal(tf.argmax(logits,1), tf.argmax(y_actual, 1)) # Don't forget we have one hot labels !!
 accuracy = tf.reduce_mean(tf.cast(prediction, tf.float32))  # Just get the accuracy
 
-
 # GRAPH IS DONE.. What else?
 # Let's execute the graph by feeding data.
 
 # We need to start a session
 sess = tf.InteractiveSession()
 
-
 # Initialize all the variables in our graph.
 sess.run(tf.global_variables_initializer())
-
-
 
 nb_classes = 10 # Number of classes
 
@@ -147,18 +145,15 @@ num_iter = 200
 load_from_checkpoint = False     # If you don't want to train and just use a checkpoint, set this to true
 batch_size = 100
 
-
 if not load_from_checkpoint:
-    
-
     for i in tqdm(range(num_iter)):     # tqdm shows a progress bar on your terminal for the for loop..
 
-        images, labels = mnist.train.next_batch(batch_size)  # Get batches to feed in and execute "optimizer" node
+        images, labels = mnist.train.next_batch(batch_size) # Get batches to feed in and execute "optimizer" node
 
         train_data = {                                      # We need to feed data as a dictionary ( placeholders will be keys of   
             x: images.reshape([-1,28,28,1]),                # dictionary ) to our graph to execute a specific node.
             y_actual: labels,
-            prob: 0.5}   # Keep probability of dropout
+            prob: 0.5}                                      # Keep probability of dropout
 
         sess.run(optimizer, feed_dict=train_data)           # Optimizer is executed here
 
@@ -178,7 +173,7 @@ if not load_from_checkpoint:
         x: mnist.test.images.reshape([-1,28,28,1]), 
         y_actual: mnist.test.labels}
 
-    acc = sess.run(accuracy, feed_dict=test_data)           # After training we evaluate model by computing test accuracy
+    acc = sess.run(accuracy, feed_dict=test_data)       # After training we evaluate model by computing test accuracy
 
     print('Final Test accuracy: {0:.2f}% '.format(acc*100))
 
@@ -191,7 +186,7 @@ else:
     res_dir = "./checkpoints/mnist" + ".ckpt"
     saver = tf.train.Saver(var_list = tf.trainable_variables("CNN"))   # Restoring checkpoints in following folder
 
-    # chkp.print_tensors_in_checkpoint_file(res_dir, tensor_name='', all_tensors=True)                  # Inspect checkpoint (Prints out all the tensors saved in checkpoint)
+    # chkp.print_tensors_in_checkpoint_file(res_dir, tensor_name='', all_tensors=True)                      # Inspect checkpoint (Prints out all the tensors saved in checkpoint)
     # chkp.print_tensors_in_checkpoint_file(res_dir, tensor_name='CNN/layer1/weight', all_tensors=False)    # Inspect checkpoint (Prints out tensors with specified name saved in checkpoint)
 
     saver.restore(sess, res_dir)                        # Restore checkpoints
