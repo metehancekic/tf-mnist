@@ -1,7 +1,5 @@
 ## Tensorflow Low-API Tutorial
 
-A simple tutorial of MNIST classification with 4 layer convolutional neural network (CNN). Neural network is implemented with low-api tensorflow modules. 
-
 **Why Low API ?**
 
 - Because it allows you to modify standard structures as you wish easily 
