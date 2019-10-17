@@ -3,6 +3,7 @@ A simple tutorial of MNIST classification with 4 layer convolutional neural netw
 
 **Libraries Needed**
 
+- Python		3.6
 - Tensorflow 		1.10.0
 - Matplotlib 		3.0.2
 - Numpy			1.16.3

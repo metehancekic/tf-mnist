@@ -203,6 +203,13 @@ def main():                                         # Main function to run
     # w1 = sess.run(w1, feed_dict = test_data)          # If you want to inspect any parameter defined in graph you can just run the 
                                                         # graph for that variable
 
+
+    with open('logs' + '.txt', 'a+') as f:             # Saves your evaluation results to a txt file
+        f.write('\n\n-----------------------\n\n')
+        f.write(f'          Test Accuracy: {acc}\n')
+        f.write(f'          Validation Accuracy: {acc_val}\n')
+
+
 if __name__ == '__main__':                          # When you run low_API.py, following code will be executed
     
     main()
