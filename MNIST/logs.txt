@@ -1,6 +1,12 @@
+--------------------------------------------
 
+          Number of iterations: 200
+          Batch size: 100
+          Test Accuracy: 0.9508000016212463
+          Validation Accuracy: 0.9524000287055969
+--------------------------------------------
 
------------------------
-
-          Test Accuracy: 0.9539999961853027
-          Validation Accuracy: 0.9455999732017517
+          Number of iterations: 200
+          Batch size: 10
+          Test Accuracy: 0.8504999876022339
+          Validation Accuracy: 0.8324000239372253

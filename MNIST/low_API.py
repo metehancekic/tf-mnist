@@ -7,10 +7,9 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data      # To read MNIST data 
 from tensorflow.python.tools import inspect_checkpoint as chkp  # To be able to check what do we have in checkpoints
-
 import numpy as np
 from tqdm import tqdm     # Adds Progress bar to loops
-
+import argparse
 
 '''
 Why Low API?
@@ -80,6 +79,19 @@ def model(x, prob):                                         # Neural Model
 
 def main():                                         # Main function to run
     
+    parser = argparse.ArgumentParser(description='4 Layer MNIST classifier')            # Allows you play with 
+                                                                                        # the hyperparameters when calling the script
+    parser.add_argument("-ni", "--num_iter", type=int, 
+                        default = 200, 
+                        help ="Number of batches to iterate in training") 
+    parser.add_argument("-b", "--batch_size", type=int, 
+                        default = 100, 
+                        help = "Batch Size") 
+    parser.add_argument("-c", "--load_from_checkpoint", action='store_true',
+                        help = "Load from checkpoint or not") 
+    args = parser.parse_args()
+
+
     tf.reset_default_graph()                        # To reset any existing graphs
     tf.logging.set_verbosity(tf.logging.ERROR)      # If you don't want to see too much warnings, put this !!
 
@@ -141,9 +153,9 @@ def main():                                         # Main function to run
     nb_classes = 10 # Number of classes
 
     # Hyper parameters for our model
-    num_iter = 200
-    load_from_checkpoint = False     # If you don't want to train and just use a checkpoint, set this to true
-    batch_size = 100
+    num_iter = args.num_iter
+    load_from_checkpoint = args.load_from_checkpoint     # If you don't want to train and just use a checkpoint, set this to true
+    batch_size = args.batch_size
 
     if not load_from_checkpoint:
         for i in tqdm(range(num_iter)):     # tqdm shows a progress bar on your terminal for the for loop..
@@ -205,7 +217,9 @@ def main():                                         # Main function to run
 
 
     with open('logs' + '.txt', 'a+') as f:             # Saves your evaluation results to a txt file
-        f.write('\n\n-----------------------\n\n')
+        f.write('--------------------------------------------\n\n')
+        f.write(f'          Number of iterations: {num_iter}\n')
+        f.write(f'          Batch size: {batch_size}\n')
         f.write(f'          Test Accuracy: {acc}\n')
         f.write(f'          Validation Accuracy: {acc_val}\n')
 
